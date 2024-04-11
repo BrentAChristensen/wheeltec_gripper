@@ -1,0 +1,210 @@
+<robot name= "wheeltec_gripper" xmlns:xacro="http://www.ros.org/wiki/xacro">
+ 
+ <link name="wheeltec_gripper_base_link"/>
+
+  <joint name="wheeltec_gripper_base_link_joint" type="fixed">
+        <parent link="wheeltec_gripper_base_link"/>
+        <child link="wheeltec_gripper_chaise"/>
+        <origin xyz="-0.005 0 0.0272" rpy="0 ${-pi/2} 0"/>
+    </joint>
+ <link name="wheeltec_gripper_chaise">
+    <inertial>
+      <origin
+        xyz="0.0293534223009873 0.0090853921588317 0.0106597454256406"
+        rpy="0 0 0" />
+      <mass
+        value="0.102600550272344" />
+      <inertia
+        ixx="5.20788240164367E-05"
+        ixy="6.54090863453443E-09"
+        ixz="4.42197949237897E-10"
+        iyy="3.20696114264544E-05"
+        iyz="-1.34739886846522E-06"
+        izz="4.78657905498745E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheeltec_gripper_description/meshes/gripperbase.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+          <origin
+        xyz="0.0293534223009873 0.0090853921588317 0.0106597454256406"
+        rpy="0 0 0" />
+            <geometry>
+                <box size="0.05 0.08 0.045"/>
+            </geometry>
+    </collision>
+ </link>
+  <gazebo reference="wheeltec_gripper_chaise">
+    <material>Gazebo/Yellow</material>
+  </gazebo>
+  <!-- right_finger finger -->
+  <joint name="left_finger_joint" type="revolute">
+    <origin xyz="0.071508 -0.024545 -0.020131"
+      rpy="0 0 0" />
+    <parent link="wheeltec_gripper_chaise"/>
+    <child link="left_finger"/>
+    <axis  xyz="2.5729E-05 -0.080001 0.99679"/>
+    <limit  lower="0" upper="0.7298" effort="10"  velocity="1.0" />
+    <dynamics damping="1" friction="1"/>
+  </joint>
+   <link
+    name="left_finger">
+    <inertial>
+      <origin
+        xyz="0.0324201926836488 -0.0145963763975525 0.0293610241174507"
+        rpy="0 0 0" />
+      <mass
+        value="0.0454654477917792" />
+      <inertia
+        ixx="8.54538343821676E-06"
+        ixy="9.08652805486317E-06"
+        ixz="7.29792995722946E-07"
+        iyy="2.33471912608672E-05"
+        iyz="-4.42703368456901E-07"
+        izz="2.88247074076199E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheeltec_gripper_description/meshes/fingers.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+          <origin
+        xyz="0.0324201926836488 -0.0145963763975525 0.0293610241174507"
+        rpy="0 0 -0.6" />
+            <geometry>
+                <box size="0.1 0.02 0.04"/>
+            </geometry>
+      </collision>
+  </link>
+  <gazebo reference="left_finger">
+    <material>Gazebo/Green</material>
+  </gazebo>
+  <xacro:macro name="transmission_macro" params="joint_name hardware_interface">
+  <transmission name="trans_'${joint_name}'">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="left_finger_joint">
+      <hardwareInterface>hardware_interface/${hardware_interface}</hardwareInterface>
+    </joint>
+    <actuator name="motor_left_finger_joint">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>hardware_interface/${hardware_interface}</hardwareInterface>
+    </actuator>
+  </transmission>
+  </xacro:macro>
+  <xacro:transmission_macro  joint_name="left_finger_joint" hardware_interface="PositionJointInterface"/>
+
+  <!-- left_finger finger -->
+  <joint name="right_finger_joint" type="revolute">
+    <origin xyz="0.071485 0.047224 -0.01437"
+      rpy="0 0 0.7298" />
+    <parent link="wheeltec_gripper_chaise"/>
+    <child link="right_finger"/>
+    <axis xyz="-2.5729E-05 0.080001 -0.99679"/>
+    <limit lower="0" upper="0.7298" effort="10"  velocity="1.0" />
+    <mimic joint="left_finger_joint" multiplier="1" offset="0"/>
+    <dynamics damping="1" friction="1"/>
+  </joint>
+   <link
+    name="right_finger">
+    <inertial>
+      <origin
+        xyz="0.0338378772194818 0.00534175148012631 0.0260745753522557"
+        rpy="0 0 0" />
+      <mass
+        value="0.0454654472444149" />
+      <inertia
+        ixx="6.25574496069598E-06"
+        ixy="-6.61546951322458E-06"
+        ixz="-5.30362302163462E-07"
+        iyy="2.5622104774585E-05"
+        iyz="-2.59716886842376E-07"
+        izz="2.88394198458503E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheeltec_gripper_description/meshes/fingers.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+          <origin
+        xyz="0.0338378772194818 -0.02034175148012631 0.060745753522557"
+        rpy="0 0 -0.3" />
+            <geometry>
+                <box size="0.1 0.02 0.04"/>
+            </geometry>
+      </collision>
+  </link>
+  <gazebo reference="right_finger">
+    <material>Gazebo/Red</material>
+  </gazebo>
+  <xacro:macro name="mimic_joint_plugin_gazebo" params="parent_joint mimic_joint has_pid:=false multiplier:=-1.0 offset:=0 sensitiveness:=0.0 max_effort:=200 robot_namespace:='/'">
+            <gazebo>
+                <plugin name="${mimic_joint}_mimic_joint_plugin" filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so">
+                    <joint>${parent_joint}</joint>
+                    <mimicJoint>${mimic_joint}</mimicJoint>
+                    <xacro:if value="${has_pid}">
+                        <hasPID />
+                    </xacro:if>
+                    <multiplier>${multiplier}</multiplier>
+                    <offset>${offset}</offset>
+                    <sensitiveness>${sensitiveness}</sensitiveness>
+                    <maxEffort>${max_effort}</maxEffort>
+                    <xacro:unless value="${robot_namespace == '/'}">
+                        <robotNamespace>($robot_namespace)</robotNamespace>
+                    </xacro:unless>
+                </plugin>
+            </gazebo>
+        </xacro:macro>
+
+ <xacro:mimic_joint_plugin_gazebo  parent_joint="left_finger_joint" mimic_joint="right_finger_joint" has_pid="false" multiplier="1.0" max_effort="10"/>
+<!--  <xacro:mimic_joint_plugin_gazebo  parent_joint="gripper_right_joint" mimic_joint="gripper_left_joint" has_pid="false" multiplier="-1.0" max_effort="200" />-->
+       <gazebo>
+            <plugin name="gazebo_grasp_fix" filename="libgazebo_grasp_fix.so">
+                <arm>
+                    <arm_name>ar3</arm_name>
+                    <palm_link>link_6</palm_link>
+                    <gripper_link> left_finger </gripper_link>
+                    <gripper_link> right_finger </gripper_link>
+                </arm>
+                <disable_collisions_on_attach>true</disable_collisions_on_attach>
+                <forces_angle_tolerance>100</forces_angle_tolerance>
+                <update_rate>10</update_rate>
+                <grip_count_threshold>3</grip_count_threshold>
+                <max_grip_count>10</max_grip_count>
+                <release_tolerance>0.001</release_tolerance>
+                <contact_topic>__default_topic__</contact_topic>
+            </plugin>
+        </gazebo> 
+
+ 
+</robot>

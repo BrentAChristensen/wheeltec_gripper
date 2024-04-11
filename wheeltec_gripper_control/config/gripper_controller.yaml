@@ -1,0 +1,10 @@
+wheeltec_gripper_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - left_finger_joint
+  gains:
+    left_finger_joint:
+      p: 0.1
+      d: 0
+      i: 0
+      i_clamp: 1

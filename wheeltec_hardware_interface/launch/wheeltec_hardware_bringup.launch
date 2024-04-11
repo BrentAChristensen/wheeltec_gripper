@@ -1,0 +1,40 @@
+<!-- https://answers.ros.org/question/221093/basic-diff_drive-question/ -->
+<!-- https://github.com/ros-controls/ros_controllers/tree/kinetic-devel/diff_drive_controller/test -->
+
+<launch>
+      <arg name="components" default ="wheeltec_hardware_interface"/>
+
+      <arg name="debug" default="false" />
+      <arg unless="$(arg debug)" name="launch_prefix" value="" />
+      <arg if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+	<!-- Load robot model -->
+	<param name="robot_description" command="python3 $(find impact_urdf)/scripts/urdf.py $(arg components)"/>
+
+
+    <!-- Load hardware interface config -->
+    <rosparam command="load" 
+              file="$(find wheeltec_hardware_interface)/config/hardware_interface.yaml"/>
+
+
+    <!-- Load hardware driver config -->
+    <rosparam command="load" 
+              file="$(find wheeltec_hardware_interface)/config/hardware_driver.yaml"/>
+
+    <node name="wheeltec_hardware_interface_node" 
+          pkg="wheeltec_hardware_interface" 
+          type="wheeltec_hardware_interface_node"/>
+
+
+
+    <!-- Load controller config -->
+    <rosparam command="load" file="$(find wheeltec_hardware_interface)/config/controllers.yaml"/>
+
+    <node name="gripper_controller_spawner" 
+          pkg="controller_manager" 
+          type="spawner" 
+          output="screen" 
+          ns="/"
+          args="joint_state_controller gripper_controller"/> 
+    
+
+</launch>

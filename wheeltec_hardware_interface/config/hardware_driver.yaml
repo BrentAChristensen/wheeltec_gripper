@@ -1,0 +1,5 @@
+wheeltec:
+    hardware_driver:
+        serial_port: "COM3" # /dev/ttyACM0
+        baudrate: 9600
+

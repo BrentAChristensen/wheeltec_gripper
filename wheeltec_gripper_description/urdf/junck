@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<robot  name="wheeltec_gripper" >
+
+ <gazebo >
+  <plugin  filename="libgazebo_ros_control.so"  name="gazebo_ros_control" />
+ </gazebo>
+ <link  name="world" />
+ <joint  name="world_joint"  type="fixed" >
+  <parent  link="world" />
+  <child  link="wheeltec_gripper_base_link" />
+ </joint>
+ <gazebo >
+  <plugin  filename="libroboticsgroup_gazebo_mimic_joint_plugin.so"  name="mimic_wheeltec_left_finger" >
+   <multiplier >
+    1.0
+   </multiplier>
+   <offset >
+    0.0
+   </offset>
+   <joint >
+    left_finger_joint
+   </joint>
+   <mimicJoint >
+    right_finger_joint
+   </mimicJoint>
+   <robotNamespace >
+    ar3
+   </robotNamespace>
+   <sensitiveness >
+    0.0
+   </sensitiveness>
+   <maxEffort >
+    10
+   </maxEffort>
+  </plugin>
+ </gazebo>
+ <gazebo >
+  <plugin  filename="libgazebo_ros_ft_sensor.so"  name="ft_sensor_plugin" >
+   <jointName >
+    left_finger_joint
+   </jointName>
+   <updateRate >
+    250.0
+   </updateRate>
+   <topicName >
+    ft_sensor/raw
+   </topicName>
+   <gaussianNoise >
+    0.0
+   </gaussianNoise>
+   <jointName >
+    left_finger_joint
+   </jointName>
+  </plugin>
+ </gazebo>
+ <gazebo />
+ <link name="wheeltec_gripper_base_link">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0293534223009873 0.0090853921588317 0.0106597454256406" />
+      <mass value="0.102600550272344" />
+      <inertia ixx="5.20788240164367E-05" ixy="6.54090863453443E-09" ixz="4.42197949237897E-10" iyy="3.20696114264544E-05" iyz="-1.34739886846522E-06" izz="4.78657905498745E-05" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://wheeltec_gripper_description/meshes/gripperbase.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://wheeltec_gripper_description/meshes/gripperbase.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="wheeltec_gripper_base_link">
+    <material>Gazebo/Yellow</material>
+  </gazebo>
+  
+  <joint name="left_finger_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.071508 -0.024545 -0.020131" />
+    /&gt;
+    
+    <parent link="wheeltec_gripper_base_link" />
+    <child link="left_finger" />
+    <axis xyz="2.5729E-05 -0.080001 0.99679" />
+    <limit effort="10" lower="0" upper="0.7298" velocity="1.0" />
+    <dynamics damping="0.02" friction="0.0" />
+  </joint>
+  <link name="left_finger">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0324201926836488 -0.0145963763975525 0.0293610241174507" />
+      <mass value="0.0454654477917792" />
+      <inertia ixx="8.54538343821676E-06" ixy="9.08652805486317E-06" ixz="7.29792995722946E-07" iyy="2.33471912608672E-05" iyz="-4.42703368456901E-07" izz="2.88247074076199E-05" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://wheeltec_gripper_description/meshes/left_finger.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://wheeltec_gripper_description/meshes/left_finger.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="left_finger">
+    <material>Gazebo/Green</material>
+  </gazebo>
+  <transmission name="trans_left_finger_joint">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="left_finger_joint">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_left_finger_joint">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  
+  <joint name="right_finger_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0.071485 0.047224 -0.01437" />
+    <parent link="wheeltec_gripper_base_link" />
+    <child link="right_finger" />
+    <axis xyz="-2.5729E-05 0.080001 -0.99679" />
+    <limit effort="10" lower="0" upper="0.7298" velocity="1.0" />
+    <mimic joint="left_finger_joint" multiplier="1" offset="0" />
+    <dynamics damping="0.02" friction="0.0" />
+  </joint>
+  <gazebo>
+    <plugin filename="libroboticsgroup_upatras_gazebo_mimic_joint_plugin.so" name="left_finger_jointmimic_joint_plugin">
+      <joint>left_finger_joint</joint>
+      <mimicJoint>right_finger_joint</mimicJoint>
+      
+      <hasPID />
+      <multiplier>1.0</multiplier>
+      <offset>0</offset>
+      <sensitiveness>0.0</sensitiveness>
+      
+      <maxEffort>10.0</maxEffort>
+    </plugin>
+  </gazebo>
+  <link name="right_finger">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0338378772194818 0.00534175148012631 0.0260745753522557" />
+      <mass value="0.0454654472444149" />
+      <inertia ixx="6.25574496069598E-06" ixy="-6.61546951322458E-06" ixz="-5.30362302163462E-07" iyy="2.5622104774585E-05" iyz="-2.59716886842376E-07" izz="2.88394198458503E-05" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://wheeltec_gripper_description/meshes/right_finger.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://wheeltec_gripper_description/meshes/right_finger.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="right_finger">
+    <material>Gazebo/Red</material>
+  </gazebo>
+  
+  
+
+</robot>

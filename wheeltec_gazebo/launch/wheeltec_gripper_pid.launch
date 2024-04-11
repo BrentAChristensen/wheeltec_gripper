@@ -1,0 +1,19 @@
+<launch>
+<node name="controller" pkg="pid" type="controller" ns="/" output="screen" >
+      <param name="node_name" value="controller_spawn" />
+      <param name="Kp" value="1" />
+      <param name="Ki" value="0.0" />
+      <param name="Kd" value="0.0" />
+      <param name="upper_limit" value="0.7" />
+      <param name="lower_limit" value="0.0" />
+      <param name="windup_limit" value="10" />
+      <param name="max_loop_frequency" value="100.0" />
+      <param name="min_loop_frequency" value="100.0" />
+      <remap from="setpoint" to="/setpoint" />
+     </node>
+
+    <node name="wheel_tec_sim_node" pkg="pid" type="plant_sim" ns="/" output="screen" >
+      <param name="plant_order" value="2" />
+    </node>
+
+</launch>

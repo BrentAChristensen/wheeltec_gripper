@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: wheeltec_gripper_description
+    relative_path: urdf\wheeltec_gripper.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config\wheeltec_gripper.srdf
+  CONFIG:
+    author_name: Brent C
+    author_email: brent.a.christensen@gmail.com
+    generated_timestamp: 1686241968
