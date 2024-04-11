@@ -191,12 +191,12 @@
        <gazebo>
             <plugin name="gazebo_grasp_fix" filename="libgazebo_grasp_fix.so">
                 <arm>
-                    <arm_name>ar3</arm_name>
-                    <palm_link>link_6</palm_link>
+                    <arm_name>wheeltec_gripper</arm_name>
+                    <palm_link>wheeltec_gripper_chaise</palm_link>
                     <gripper_link> left_finger </gripper_link>
                     <gripper_link> right_finger </gripper_link>
                 </arm>
-                <disable_collisions_on_attach>true</disable_collisions_on_attach>
+                <disable_collisions_on_attach>false</disable_collisions_on_attach>
                 <forces_angle_tolerance>100</forces_angle_tolerance>
                 <update_rate>10</update_rate>
                 <grip_count_threshold>3</grip_count_threshold>
