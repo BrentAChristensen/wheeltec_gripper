@@ -97,6 +97,25 @@
             </geometry>
       </collision>
   </link>
+  <link
+     name="wheeltec_gripper_center">
+<!--       <visual>
+          <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+            <geometry>
+                <box size="0.03 0.03 0.03"/>
+            </geometry>
+      </visual> -->
+  </link>
+  <joint name="wheeltec_gripper_center_joint" type="fixed">
+    <origin xyz="0.125 0 0"
+      rpy="0 0 0" />
+    <parent link="wheeltec_gripper_chaise"/>
+    <child link="wheeltec_gripper_center"/>
+    <axis  xyz="0.125 0 0"/>
+  </joint>
+
   <gazebo reference="left_finger">
     <material>Gazebo/Green</material>
   </gazebo>
@@ -157,7 +176,7 @@
     </visual>
     <collision>
           <origin
-        xyz="0.0338378772194818 -0.02034175148012631 0.060745753522557"
+        xyz="0.0338378772194818 -0.02034175148012631 0.020745753522557"
         rpy="0 0 -0.3" />
             <geometry>
                 <box size="0.1 0.02 0.04"/>
