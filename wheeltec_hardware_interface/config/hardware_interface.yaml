@@ -1,5 +1,5 @@
 wheeltec:
     hardware_interface:
-        loop_hz: 10 # hz
+        loop_hz: 20 # hz
         joints:
             - left_finger_joint

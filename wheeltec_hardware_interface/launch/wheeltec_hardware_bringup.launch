@@ -7,9 +7,9 @@
       <arg name="debug" default="false" />
       <arg unless="$(arg debug)" name="launch_prefix" value="" />
       <arg if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
-	<!-- Load robot model -->
+	<!-- Load robot model 
 	<param name="robot_description" command="python3 $(find impact_urdf)/scripts/urdf.py $(arg components)"/>
-
+-->
 
     <!-- Load hardware interface config -->
     <rosparam command="load" 
@@ -34,7 +34,7 @@
           type="spawner" 
           output="screen" 
           ns="/"
-          args="joint_state_controller gripper_controller"/> 
+          args="joint_state_controller wheeltec_gripper_controller"/> 
     
 
 </launch>

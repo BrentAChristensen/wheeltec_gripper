@@ -11,7 +11,7 @@
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
-#include "wheeltec_gripper_driver/ArduinoDriver.h"
+//#include "wheeltec_gripper_driver/ArduinoDriver.h"
 #include <sstream>
 
 const unsigned int NUM_JOINTS = 1;
@@ -35,14 +35,14 @@ class WheeltecHardwareInterface  : public hardware_interface::RobotHW
 	    int baudrate;
 	    nh_.getParam("/wheeltec/hardware_driver/serial_port", serial_port);
 	    nh_.getParam("/wheeltec/hardware_driver/baudrate", baudrate);
-	    driver_.init(serial_port, baudrate);
+	   // driver_.init(serial_port, baudrate);
    }
-    void write()
+    void write(ros::Duration elapsed_time)
     {
        if (prev_cmd[0]!=cmd[0])
        {
           prev_cmd[0]=cmd[0];
-          driver_.update(cmd[0]);
+          //driver_.update(cmd[0]);
        } 
     }  
     void read(ros::Duration elapsed_time) 
@@ -77,7 +77,7 @@ class WheeltecHardwareInterface  : public hardware_interface::RobotHW
   
     ros::Time curr_update_time, prev_update_time;
     ros::NodeHandle nh_;
-    wheeltec_gripper_driver::ArduinoDriver driver_;
+   // wheeltec_gripper_driver::ArduinoDriver driver_;
 	
 };  // class
 

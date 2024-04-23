@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   roslaunch
   hardware_interface
-  wheeltec_gripper_driver
+  transmission_interface
   
 )
 
@@ -32,7 +32,7 @@ catkin_package(
   	controller_manager 
   	roscpp 
   	hardware_interface
-    wheeltec_gripper_driver
+    transmission_interface
 #  DEPENDS system_lib
 )
 
