@@ -41,5 +41,6 @@
       <param name="baud" value="9600"/>
       </node>
   
-
+      <node pkg="impact_motion" type="wheeltec_gripper_pub_sub.py" name="gripper_publisher_node"/>
+      
 </launch>
